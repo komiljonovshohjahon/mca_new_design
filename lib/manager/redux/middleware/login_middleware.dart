@@ -58,26 +58,26 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       await appStore.dispatch(
           GetRunApiFetchAction(ApiInvokes.invokePing, reqType: ReqType.POST));
       //Success
-      // final DIO.Response? regRes = await appStore.dispatch(GetRunApiFetchAction(
-      //     ApiInvokes.invokeRegister,
-      //     reqType: ReqType.POST,
-      //     showErrorPopup: false,
-      //     data: {
-      //       "device_id": deviceId,
-      //       "locale": Get.deviceLocale?.languageCode
-      //     }));
-      // if (regRes != null) {
-      //Success
-      await appStore.dispatch(
-          GetExportHiveAction(value: true, key: Constants.hiveRegKey));
-      await appStore.dispatch(GetModelsInitAction(successAction: () {
-        next(UpdateInitAction(
-            apiError: ApiError(error: null, error_description: null)));
-        appStore.replace(AppRoutes.RouteToMain);
-      }));
-      // } else {
-      //Fail
-      // }
+      final DIO.Response? regRes = await appStore.dispatch(GetRunApiFetchAction(
+          ApiInvokes.invokeRegister,
+          reqType: ReqType.POST,
+          showErrorPopup: false,
+          data: {
+            "device_id": deviceId,
+            "locale": Get.deviceLocale?.languageCode
+          }));
+      if (regRes != null) {
+        //Success
+        await appStore.dispatch(
+            GetExportHiveAction(value: true, key: Constants.hiveRegKey));
+        await appStore.dispatch(GetModelsInitAction(successAction: () {
+          next(UpdateInitAction(
+              apiError: ApiError(error: null, error_description: null)));
+          appStore.replace(AppRoutes.RouteToMain);
+        }));
+      } else {
+        //Fail
+      }
     } else {
       // appStore.popupPop();
       //Fail
