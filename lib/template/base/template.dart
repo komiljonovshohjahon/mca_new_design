@@ -35,7 +35,7 @@ export '../../pages/adminstration_location_screen.dart';
 export '../../pages/adminstration_user_screen.dart';
 export '../../pages/available_shift_screen.dart';
 export '../../pages/checklist_screen.dart';
-export '../../pages/daily_progress_details_screen.dart';
+export '../../pages/properties_screen.dart';
 export '../../pages/daily_progress_screen.dart';
 export '../../pages/informations_screen.dart';
 export '../../pages/main_screen.dart';
@@ -49,6 +49,7 @@ export '../../pages/about_screen.dart';
 export '../../pages/timesheet_req_screen.dart';
 export '../../pages/timesheet_available_screen.dart';
 export '../../pages/messages_screen.dart';
+export '../../pages/properties_screen.dart';
 
 //Widgets
 export '../layout/default_body.dart';

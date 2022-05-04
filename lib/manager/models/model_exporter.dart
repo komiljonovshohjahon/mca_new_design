@@ -9,3 +9,4 @@ export './timesheet_md.dart';
 export './message_md.dart';
 export './storage_md.dart';
 export './checklist_md.dart';
+export './property_md.dart';

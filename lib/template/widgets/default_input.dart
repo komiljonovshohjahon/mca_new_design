@@ -17,6 +17,7 @@ class DefaultInput extends StatelessWidget {
   final TextInputType? textInputType;
   final ValueChanged? onChanged;
   final TextInputAction? textInputAction;
+  Color? bgColor;
   DefaultInput(
       {this.hintText,
       this.controller,
@@ -32,7 +33,12 @@ class DefaultInput extends StatelessWidget {
       this.onSubmit,
       this.isObscured = false,
       this.enabled = true,
-      this.prefixIcon});
+      this.prefixIcon,
+      this.bgColor}) {
+    if (bgColor == null) {
+      bgColor = ThemeColors.black.withOpacity(0.07);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -64,7 +70,7 @@ class DefaultInput extends StatelessWidget {
               borderSide: BorderSide(color: ThemeColors.mainBlue)),
           constraints: BoxConstraints.tight(Size(323.w, 51.h)),
           border: const OutlineInputBorder(borderSide: BorderSide.none),
-          fillColor: ThemeColors.black.withOpacity(0.07),
+          fillColor: bgColor,
         ),
       ),
     );

@@ -129,6 +129,8 @@ class DefaultDrawer extends StatelessWidget {
                             currentRoute),
                       _drawerButton(FontAwesomeIcons.userClock,
                           AppRoutes.RouteToTimesheet, currentRoute),
+                      _drawerButton(FontAwesomeIcons.solidBuilding,
+                          AppRoutes.RouteToProperties, currentRoute),
                       _drawerButton(FontAwesomeIcons.solidCommentAlt,
                           AppRoutes.RouteToMessages, currentRoute),
                       _drawerButton(FontAwesomeIcons.infoCircle,

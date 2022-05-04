@@ -73,4 +73,5 @@ class ApiInvokes {
   static const String invokeCurrentShifts = '/api/currentshifts';
   static const String invokeCompletedShifts = '/api/completedshifts';
   static const String invokeNextShifts = '/api/nextshifts';
+  static const String invokeProperties = '/api/properties';
 }

@@ -19,6 +19,7 @@ class ModelsState {
   final List<String> locations;
   final StorageModel storageModel;
   final ChecklistHeadModel checklistModel;
+  final List<PropertyModel> properties;
 
   ModelsState({
     required this.currentStatusModel,
@@ -36,6 +37,7 @@ class ModelsState {
     required this.locations,
     required this.storageModel,
     required this.checklistModel,
+    required this.properties,
   });
 
   factory ModelsState.initial() {
@@ -55,7 +57,8 @@ class ModelsState {
         locations: [],
         storageModel: StorageModel(storages: []),
         checklistModel: ChecklistHeadModel(
-            checklist: ChecklistModel(), rooms: [], users: []));
+            checklist: ChecklistModel(), rooms: [], users: []),
+        properties: []);
   }
 
   ModelsState copyWith({
@@ -74,6 +77,7 @@ class ModelsState {
     List<String>? locations,
     StorageModel? storageModel,
     ChecklistHeadModel? checklistModel,
+    List<PropertyModel>? properties,
   }) {
     return ModelsState(
       currentStatusModel: currentStatusModel ?? this.currentStatusModel,
@@ -91,6 +95,7 @@ class ModelsState {
       locations: locations ?? this.locations,
       storageModel: storageModel ?? this.storageModel,
       checklistModel: checklistModel ?? this.checklistModel,
+      properties: properties ?? this.properties,
     );
   }
 }
@@ -208,6 +213,8 @@ class GetPostStoragesAction {
 
 class GetChecklistAction {}
 
+class GetPropertiesAction {}
+
 class GetPostChecklistAction {
   final int checklistId;
   final List<int?> checked;
@@ -237,11 +244,12 @@ class UpdateModelsAction {
   List<String>? locations;
   StorageModel? storageModel;
   ChecklistHeadModel? checklistModel;
-
+  List<PropertyModel>? properties;
   UpdateModelsAction({
     this.currentStatusModel,
     this.detailsModel,
     this.availableModel,
+    this.properties,
     this.photoModel,
     this.companyModel,
     this.infosModel,

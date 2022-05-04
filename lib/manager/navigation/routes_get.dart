@@ -11,7 +11,6 @@ class AppRoutes {
   static const RouteToAdministrationUser = "/AdministrationUser";
   static const RouteToAvailableShift = "/AvailableShift";
   static const RouteToChecklist = "/checklist";
-  static const RouteToDailyProgressDetails = "/DailyProgressDetails";
   static const RouteToDailyProgress = "/daily_progress";
   static const RouteToStockSummary = "/stock_summary";
   static const RouteToStockTransferItem = "/stock_transfer_item";
@@ -21,6 +20,7 @@ class AppRoutes {
   static const RouteToTimesheetReq = "/TimesheetRequest";
   static const RouteToTimesheetAvailable = "/TimesheetAvailable";
   static const RouteToMessages = "/messages";
+  static const RouteToProperties = "/properties";
 
   static Map<String, WidgetBuilder> getRoutes() {
     Map<String, WidgetBuilder> base = {
@@ -38,8 +38,6 @@ class AppRoutes {
       AppRoutes.RouteToAvailableShift: (BuildContext _) =>
           const AvailableShiftScreen(),
       AppRoutes.RouteToChecklist: (BuildContext _) => const ChecklistScreen(),
-      AppRoutes.RouteToDailyProgressDetails: (BuildContext _) =>
-          const DailyProgressDetailsScreen(),
       AppRoutes.RouteToDailyProgress: (BuildContext _) =>
           const DailyProgressScreen(),
       AppRoutes.RouteToStockSummary: (BuildContext _) =>
@@ -54,7 +52,8 @@ class AppRoutes {
           const TimesheetReqScreen(),
       AppRoutes.RouteToTimesheetAvailable: (BuildContext _) =>
           const TimesheetAvailableScreen(),
-      AppRoutes.RouteToMessages: (BuildContext _) => const MessagesScreen()
+      AppRoutes.RouteToMessages: (BuildContext _) => const MessagesScreen(),
+      AppRoutes.RouteToProperties: (BuildContext _) => const PropertiesScreen(),
     };
 
     return base;

@@ -105,9 +105,9 @@ class DefaultBody extends StatelessWidget {
   Widget? _getDrawer(AppState state) {
     final String currentRoute = Get.routing.current;
     final bool isLoggedIn = state.initState.access_token.isNotEmpty;
-    if (currentRoute != AppRoutes.RouteToSplash && isLoggedIn) {
+    if ((currentRoute != AppRoutes.RouteToSplash) && isLoggedIn) {
       return DefaultDrawer();
-    } else {
+    } else if (currentRoute != AppRoutes.RouteToSplash) {
       return LoginDrawer();
     }
   }

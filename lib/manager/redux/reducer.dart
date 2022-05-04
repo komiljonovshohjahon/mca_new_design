@@ -113,6 +113,7 @@ ModelsState _updateModelsState(ModelsState state, UpdateModelsAction action) {
     locations: action.locations ?? state.locations,
     storageModel: action.storageModel ?? state.storageModel,
     checklistModel: action.checklistModel ?? state.checklistModel,
+    properties: action.properties ?? state.properties,
   );
 }
 

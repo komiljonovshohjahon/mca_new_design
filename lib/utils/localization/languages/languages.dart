@@ -12,7 +12,6 @@ class EnglishLocale {
     AppRoutes.RouteToAdministrationUser: "Administration",
     AppRoutes.RouteToAvailableShift: "Administration",
     AppRoutes.RouteToChecklist: "Checklist",
-    AppRoutes.RouteToDailyProgressDetails: "Daily Progress",
     AppRoutes.RouteToDailyProgress: "Daily Progress",
     AppRoutes.RouteToStockSummary: "Stock Summary",
     AppRoutes.RouteToStockTransferItem: "Stock Transfer",
@@ -128,6 +127,11 @@ class EnglishLocale {
     'users': 'Users',
     'in_progress': 'In Progress',
     'notes': 'Notes',
+    'search_for_property': 'Search for property',
+    'properties': 'Properties',
+    AppRoutes.RouteToProperties: "Properties",
+    'rooms': 'Rooms',
+    'storages': 'Storages',
   };
 }
 
@@ -143,7 +147,6 @@ class HungarianLocale {
     AppRoutes.RouteToAdministrationUser: "Adminisztráció",
     AppRoutes.RouteToAvailableShift: "Adminisztráció",
     AppRoutes.RouteToChecklist: "Ellenőrzőlista",
-    AppRoutes.RouteToDailyProgressDetails: "Napi Folyamat",
     AppRoutes.RouteToDailyProgress: "Napi Folyamat",
     AppRoutes.RouteToStockSummary: "Készlet összesítés",
     AppRoutes.RouteToStockTransferItem: "Készletátadás",
@@ -259,7 +262,6 @@ class PortugueseLocale {
     AppRoutes.RouteToAdministrationUser: "Administração",
     AppRoutes.RouteToAvailableShift: "Administração",
     AppRoutes.RouteToChecklist: "Verificacao",
-    AppRoutes.RouteToDailyProgressDetails: "Progresso Diário",
     AppRoutes.RouteToDailyProgress: "Progresso Diário",
     AppRoutes.RouteToStockSummary: "Resumo de ações",
     AppRoutes.RouteToStockTransferItem: "Transferência de estoque",

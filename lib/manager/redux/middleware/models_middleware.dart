@@ -74,6 +74,8 @@ class ModelsMiddleware extends MiddlewareClass<AppState> {
         return _getChecklistAction(store.state, action, next);
       case GetPostChecklistAction:
         return _getPostChecklistAction(store.state, action, next);
+      case GetPropertiesAction:
+        return _getPropertiesAction(store.state, action, next);
       default:
         return next(action);
     }
@@ -279,7 +281,7 @@ class ModelsMiddleware extends MiddlewareClass<AppState> {
     } else {
       showLoadingDialog();
       final String undo = action.undo ? "1" : "0";
-      final String ipAddr = await getDeviceIpAction();
+      final String? ipAddr = await getDeviceIpAction();
       final LocationData? deviceLoc = await getDeviceLocation();
       if (deviceLoc == null) {
         appStore.snackbar('location_error');
@@ -494,7 +496,7 @@ class ModelsMiddleware extends MiddlewareClass<AppState> {
   _getLocationAction(
       AppState state, GetLocationAction action, NextDispatcher next) async {
     final LocationData? deviceLoc = await getDeviceLocation();
-    final String deviceIpaddress = await getDeviceIpAction();
+    final String? deviceIpaddress = await getDeviceIpAction();
     Map<String, dynamic> params = {};
     if (deviceLoc != null) {
       params['latitude'] = deviceLoc.latitude;
@@ -620,10 +622,27 @@ class ModelsMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
+  _getPropertiesAction(
+      AppState state, GetPropertiesAction action, NextDispatcher next) async {
+    final Response? res = await appStore.dispatch(GetRunApiFetchAction(
+        ApiInvokes.invokeProperties,
+        reqType: ReqType.GET));
+    if (res != null) {
+      List<PropertyModel> properties = [];
+      properties = res.data['list']
+          .map<PropertyModel>((e) => PropertyModel.fromJson(e))
+          .toList();
+      //Success
+      next(UpdateModelsAction(properties: properties));
+      return properties;
+    } else {
+      //Fail
+    }
+  }
 ///////////////////////DO NOT DECLARE FUNCTIONS AFTER THIS LINE//////////////////////////
 }
 
-Future<String> getDeviceIpAction() async {
+Future<String?> getDeviceIpAction() async {
   final ipv4 = await Ipify.ipv4();
   return ipv4;
 }
