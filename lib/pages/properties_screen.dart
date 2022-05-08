@@ -204,13 +204,13 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                   propertyModel.sleeps_min.toString() +
                   "-" +
                   propertyModel.sleeps_max.toString()),
-        if (propertyModel.sleeps_min != null)
-          SizedText(
-              text: 'sleeps'.tr + ": " + propertyModel.sleeps_min.toString()),
-        if (propertyModel.sleeps_max != null)
-          SizedText(
-              text:
-                  'sleeps_max'.tr + ": " + propertyModel.sleeps_max.toString()),
+        // if (propertyModel.sleeps_min != null)
+        //   SizedText(
+        //       text: 'sleeps'.tr + ": " + propertyModel.sleeps_min.toString()),
+        // if (propertyModel.sleeps_max != null)
+        //   SizedText(
+        //       text:
+        //           'sleeps_max'.tr + ": " + propertyModel.sleeps_max.toString()),
         if (propertyModel.notes != null)
           SizedText(
               text: 'notes'.tr + ": " + propertyModel.notes.toString(),

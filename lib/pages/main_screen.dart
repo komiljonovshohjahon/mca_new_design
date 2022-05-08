@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:location/location.dart';
 import 'package:mca_new_design/manager/models/model_exporter.dart';
 import 'package:mca_new_design/manager/periodic_actions.dart';
 import 'package:mca_new_design/template/base/template.dart';

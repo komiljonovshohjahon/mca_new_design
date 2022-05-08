@@ -64,6 +64,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
           showErrorPopup: false,
           data: {
             "device_id": deviceId,
+            "version": Constants.app_version,
             "locale": Get.deviceLocale?.languageCode
           }));
       if (regRes != null) {

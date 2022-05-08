@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart' as GETX;
 import 'package:get/get_core/src/get_main.dart';
 import 'package:mca_new_design/manager/models/model_exporter.dart';
@@ -14,7 +15,6 @@ import 'package:mca_new_design/utils/common/helpers.dart';
 import 'package:mca_new_design/utils/common/log_tester.dart';
 import 'package:redux/redux.dart';
 import 'package:dart_ipify/dart_ipify.dart';
-import 'package:location/location.dart';
 import '../../../utils/common/constants.dart';
 import '../../../utils/format/date_format.dart';
 import '../../navigation/routes_get.dart';
@@ -262,8 +262,15 @@ class ModelsMiddleware extends MiddlewareClass<AppState> {
 
   Future<Map?> _getMobileAdminAction(
       AppState state, GetMobileAdminAction action, NextDispatcher next) async {
+    final Map<String, dynamic> params = {};
+
+    if (action.date != null) {
+      params['date'] = action.date;
+    }
+
     final Response? res = await appStore.dispatch(GetRunApiFetchAction(
         ApiInvokes.invokeMobileAdmin,
+        params: params,
         reqType: ReqType.GET));
     if (res != null) {
       //Success
@@ -282,7 +289,7 @@ class ModelsMiddleware extends MiddlewareClass<AppState> {
       showLoadingDialog();
       final String undo = action.undo ? "1" : "0";
       final String? ipAddr = await getDeviceIpAction();
-      final LocationData? deviceLoc = await getDeviceLocation();
+      final Position? deviceLoc = await getDeviceLocation();
       if (deviceLoc == null) {
         appStore.snackbar('location_error');
       } else {
@@ -495,7 +502,7 @@ class ModelsMiddleware extends MiddlewareClass<AppState> {
 
   _getLocationAction(
       AppState state, GetLocationAction action, NextDispatcher next) async {
-    final LocationData? deviceLoc = await getDeviceLocation();
+    final Position? deviceLoc = await getDeviceLocation();
     final String? deviceIpaddress = await getDeviceIpAction();
     Map<String, dynamic> params = {};
     if (deviceLoc != null) {
@@ -647,29 +654,64 @@ Future<String?> getDeviceIpAction() async {
   return ipv4;
 }
 
-Future<LocationData?> getDeviceLocation() async {
-  Location location = Location();
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  LocationData _locationData;
+Future<Position?> getDeviceLocation() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+// Test if location services are enabled.
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    // Location services are not enabled don't continue
+    // accessing the position and request users of the
+    // App to enable the location services.
+    return null;
+  }
 
-  _serviceEnabled = await location.serviceEnabled();
-  if (!_serviceEnabled) {
-    _serviceEnabled = await location.requestService();
-    if (!_serviceEnabled) {
-      return null;
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      // Permissions are denied, next time you could try
+      // requesting permissions again (this is also where
+      // Android's shouldShowRequestPermissionRationale
+      // returned true. According to Android guidelines
+      // your App should show an explanatory UI now.
+      appStore.snackbar('Location permissions are denied');
     }
   }
 
-  _permissionGranted = await location.hasPermission();
-  if (_permissionGranted == PermissionStatus.denied) {
-    _permissionGranted = await location.requestPermission();
-    if (_permissionGranted != PermissionStatus.granted) {
-      appStore.snackbar('location_perm_denied');
-      return null;
-    }
+  if (permission == LocationPermission.deniedForever) {
+    // Permissions are denied forever, handle appropriately.
+    appStore.snackbar(
+        'Location permissions are permanently denied, we cannot request permissions.');
   }
 
-  _locationData = await location.getLocation();
-  return _locationData;
+  // When we reach here, permissions are granted and we can
+  // continue accessing the position of the device.
+  return await Geolocator.getCurrentPosition();
+
+  ////
+  // Location location = Location();
+  // bool _serviceEnabled;
+  // PermissionStatus _permissionGranted;
+  // LocationData _locationData;
+  //
+  // _serviceEnabled = await location.serviceEnabled();
+  // if (!_serviceEnabled) {
+  //   _serviceEnabled = await location.requestService();
+  //   if (!_serviceEnabled) {
+  //     return null;
+  //   }
+  // }
+  //
+  // _permissionGranted = await location.hasPermission();
+  // if (_permissionGranted == PermissionStatus.denied) {
+  //   _permissionGranted = await location.requestPermission();
+  //   if (_permissionGranted != PermissionStatus.granted) {
+  //     appStore.snackbar('location_perm_denied');
+  //     return null;
+  //   }
+  // }
+  //
+  // _locationData = await location.getLocation();
+  // return _locationData;
 }

@@ -36,7 +36,7 @@ class _AboutScreenState extends State<AboutScreen> {
     final bool isTest = state.initState.isTest;
     return DefaultButtonListener(
         radius: 0,
-        msg: '${Constants.testVerCode} ${isTest ? "(test)".tr : ""}',
+        msg: '${Constants.app_version} ${isTest ? "(test)".tr : ""}',
         bgColor: ThemeColors.fillGray,
         onTap: () {
           appStore.dispatch(GetEnableTestModeAction());

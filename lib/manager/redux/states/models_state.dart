@@ -123,7 +123,10 @@ class GetCurrentStockAction {}
 
 class GetDailyProgressAction {}
 
-class GetMobileAdminAction {}
+class GetMobileAdminAction {
+  String? date;
+  GetMobileAdminAction({this.date});
+}
 
 class GetPostMobileAdminAction {
   int? shiftId;

@@ -28,6 +28,7 @@ class DefaultBody extends StatelessWidget {
   final VoidCallback? showActionMenu;
   final VoidCallback? showArrowLeft;
   final VoidCallback? showArrowRight;
+  final VoidCallback? showCalendar;
 
   const DefaultBody({
     this.footer,
@@ -52,6 +53,7 @@ class DefaultBody extends StatelessWidget {
     this.showActionMenu,
     this.showArrowRight,
     this.showArrowLeft,
+    this.showCalendar,
   });
 
   double get calcBottomPadding =>
@@ -79,6 +81,7 @@ class DefaultBody extends StatelessWidget {
                   showActionLocation: showActionLocation,
                   showActionMsg: showActionMsg,
                   titleText: titleText,
+                  showCalendar: showCalendar,
                 ),
             bottomNavigationBar: footer != null ? footer!(state) : null,
             drawer: _getDrawer(state),

@@ -13,6 +13,7 @@ class DefaultHeader extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? showArrowLeft;
   final VoidCallback? showArrowRight;
   final VoidCallback? showActionMenu;
+  final VoidCallback? showCalendar;
   DefaultHeader({
     this.titleText,
     this.showLeadingBack,
@@ -23,6 +24,7 @@ class DefaultHeader extends StatelessWidget implements PreferredSizeWidget {
     this.showActionMenu,
     this.showArrowRight,
     this.showArrowLeft,
+    this.showCalendar,
   });
 
   @override
@@ -107,7 +109,11 @@ class DefaultHeader extends StatelessWidget implements PreferredSizeWidget {
                         EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
                     child: SizedText(text: "availability"),
                   )
-                ])
+                ]),
+      if (showCalendar != null)
+        IconButton(
+            onPressed: isLoading ? null : showCalendar,
+            icon: Icon(FontAwesomeIcons.calendarAlt, size: 20.h)),
     ];
   }
 

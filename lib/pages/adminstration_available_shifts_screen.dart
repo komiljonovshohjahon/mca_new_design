@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:intl/intl.dart';
 import 'package:mca_new_design/template/base/template.dart';
 
 import '../manager/redux/states/ui_state.dart';
@@ -16,6 +17,7 @@ class _AdministrationAvailableShiftsScreenState
     extends State<AdministrationAvailableShiftsScreen> {
   static List _availableShifts = [];
   static List _availableAllocations = [];
+  DateTime _selectedDate = DateTime.now();
 
   _resetLocs() {
     setState(() {});
@@ -32,51 +34,36 @@ class _AdministrationAvailableShiftsScreenState
   @override
   Widget build(BuildContext context) {
     return DefaultBody(
-      shimmerLength: 10,
-      onInit: () {
-        bool isPub = false;
-        bool isUnPub = false;
-        Map? res = GETSTATE(context).modelsState.mobileAdmin;
-        final int _oldLocId = int.parse(
-            AdministrationLocationScreen.selectedLocation['location']!['key']!);
-        final int _oldUserId = int.parse(
-            AdministrationLocationScreen.selectedLocation['user']!['key']!);
-        for (var shift in res['shifts']) {
-          if (shift['location']['id'] == _oldLocId) {
-            // int olduserId = int.parse(shift['shifts'].keys.first);
-            _availableShifts.add(shift);
-            List<bool> _allocpublished = [];
-            if (res['allocations'] != null) {
-              for (var alloc in res['allocations']) {
-                if (int.parse(alloc['locationId']) == shift['location']['id']) {
-                  _allocpublished.add(alloc['published']);
-                  //CHECK PUB/UNPUB START
-                  int _shiftshiftId = shift['shifts'].values.first['shiftId'];
-                  int _allocshiftId = int.parse(alloc['shiftId']);
-                  if (_shiftshiftId == _allocshiftId) {
-                    if (alloc.containsKey('userId')) {
-                      if (int.parse(alloc['userId']) == _oldUserId) {
-                        isPub = true;
-                      }
-                    }
-                  }
-                }
-                //CHECK PUB/UNPUB END
-                _availableAllocations.add(alloc);
-              }
-            }
-            isUnPub = _allocpublished.contains(true);
-            isPub = _allocpublished.contains(false);
-          }
-        }
+      shimmerLength: 8,
+      showCalendar: () async {
+        final DateTime? picked = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now().add(1.days),
+          firstDate: DateTime.now(),
+          lastDate: DateTime.now().add(90.days),
+        );
 
-        appStore.dispatch(
-            UpdateUIAction(isPublished: isPub, isUnPublished: isUnPub));
-        setState(() {});
+        if (picked != null) {
+          setState(() {
+            _selectedDate = picked;
+          });
+          _initialize(false);
+        }
       },
+      // showArrowLeft: () {
+      //   setState(() {
+      //     _selectedDate = _selectedDate.subtract(1.days);
+      //   });
+      //   _initialize(false);
+      // },
+      // showArrowRight: () {
+      //   setState(() {
+      //     _selectedDate = _selectedDate.add(1.days);
+      //   });
+      //   _initialize(false);
+      // },
+      onInit: () => _initialize(true),
       showLeadingMenuBtn: true,
-      showActionBell: () {},
-      showActionMsg: () {},
       paddingHorizontal: 0,
       paddingTop: 23,
       footer: (state) => Row(
@@ -114,6 +101,64 @@ class _AdministrationAvailableShiftsScreenState
         return _IdleBody(state: state, reset: _resetLocs);
       },
     );
+  }
+
+  String _getDate() {
+    return DateFormat('yyyyMMdd').format(_selectedDate);
+  }
+
+  void _initialize(bool isInit) async {
+    bool isPub = false;
+    bool isUnPub = false;
+
+    Map? res = GETSTATE(context).modelsState.mobileAdmin;
+    if (!isInit) {
+      _availableShifts.clear();
+      _availableAllocations.clear();
+      appStore
+          .dispatch(UpdateUIAction(isPublished: false, isUnPublished: false));
+      appStore.isLoading(true);
+      res = await appStore.dispatch(GetMobileAdminAction(date: _getDate()));
+      appStore.isLoading(false);
+    }
+    if (res != null) {
+      final int _oldLocId = int.parse(
+          AdministrationLocationScreen.selectedLocation['location']!['key']!);
+      final int _oldUserId = int.parse(
+          AdministrationLocationScreen.selectedLocation['user']!['key']!);
+      for (var shift in res['shifts']) {
+        if (shift['location']['id'] == _oldLocId) {
+          // int olduserId = int.parse(shift['shifts'].keys.first);
+          _availableShifts.add(shift);
+          List<bool> _allocpublished = [];
+          if (res['allocations'] != null) {
+            for (var alloc in res['allocations']) {
+              if (int.parse(alloc['locationId']) == shift['location']['id']) {
+                _allocpublished.add(alloc['published']);
+                //CHECK PUB/UNPUB START
+                int _shiftshiftId = shift['shifts'].values.first['shiftId'];
+                int _allocshiftId = int.parse(alloc['shiftId']);
+                if (_shiftshiftId == _allocshiftId) {
+                  if (alloc.containsKey('userId')) {
+                    if (int.parse(alloc['userId']) == _oldUserId) {
+                      isPub = true;
+                    }
+                  }
+                }
+              }
+              //CHECK PUB/UNPUB END
+              _availableAllocations.add(alloc);
+            }
+          }
+          isUnPub = _allocpublished.contains(true);
+          isPub = _allocpublished.contains(false);
+        }
+      }
+    }
+
+    appStore
+        .dispatch(UpdateUIAction(isPublished: isPub, isUnPublished: isUnPub));
+    setState(() {});
   }
 }
 
