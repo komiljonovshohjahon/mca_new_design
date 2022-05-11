@@ -77,6 +77,8 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
           appStore.replace(AppRoutes.RouteToMain);
         }));
       } else {
+        await appStore.dispatch(GetResetAction(
+            removeTest: false, removeError: false, removeReg: false));
         //Fail
       }
     } else {
@@ -88,20 +90,32 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   _getResetAction(
       AppState state, GetResetAction action, NextDispatcher next) async {
     showLoadingDialog();
+    final bool isTest = state.initState.isTest;
+    final ApiError apiError = state.initState.apiError;
     next(UpdateInitAction(
         apiError: ApiError(error: null, error_description: null)));
     final DIO.Response? res = await appStore.dispatch(
         GetRunApiFetchAction(ApiInvokes.invokePing, reqType: ReqType.POST));
     if (res != null) {
-      final DIO.Response? resRegisterDel = await appStore.dispatch(
-          GetRunApiFetchAction(ApiInvokes.invokeRegister,
-              reqType: ReqType.DELETE));
+      if (action.removeReg) {
+        final DIO.Response? resRegisterDel = await appStore.dispatch(
+            GetRunApiFetchAction(ApiInvokes.invokeRegister,
+                reqType: ReqType.DELETE));
+      }
       // if (res != null) {
       //Success
     }
     next(UpdateInitAction(isReset: true));
     await appStore.dispatch(GetDeleteHiveAction(key: Constants.hiveTokenKey));
-    await appStore.dispatch(GetDeleteHiveAction(key: Constants.hiveTestKey));
+    if (action.removeTest) {
+      await appStore.dispatch(GetDeleteHiveAction(key: Constants.hiveTestKey));
+    }
+    if (!action.removeTest) {
+      next(UpdateInitAction(isTest: isTest));
+    }
+    if (!action.removeError) {
+      next(UpdateInitAction(isTest: isTest, apiError: apiError));
+    }
     await appStore.dispatch(GetDeleteHiveAction(key: Constants.hiveRegKey));
     await appStore.replace(AppRoutes.RouteToSignUp);
     // SystemChannels.platform.invokeMethod('SystemNavigator.pop');

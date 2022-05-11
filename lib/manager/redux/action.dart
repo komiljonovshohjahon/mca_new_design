@@ -50,7 +50,13 @@ class GetTokenAction {
       {required this.username, required this.domain, required this.pwd});
 }
 
-class GetResetAction {}
+class GetResetAction {
+  final bool removeTest;
+  final bool removeError;
+  final bool removeReg;
+  GetResetAction(
+      {this.removeTest = true, this.removeError = true, this.removeReg = true});
+}
 
 class GetEnableTestModeAction {}
 

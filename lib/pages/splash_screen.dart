@@ -1,6 +1,7 @@
 import 'package:mca_new_design/template/base/template.dart';
 
 import '../manager/periodic_actions.dart';
+import '../manager/redux/middleware/models_middleware.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -32,6 +33,7 @@ class SplashScreen extends StatelessWidget {
   }
 
   _doInit() async {
+    await getDeviceLocation();
     Get.put(TimerController());
     Map? res = await appStore
         .dispatch(GetImportHiveAction(key: Constants.hiveTokenKey));
