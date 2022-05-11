@@ -98,7 +98,8 @@ class _AdministrationAvailableShiftsScreenState
         ],
       ),
       child: (state) {
-        return _IdleBody(state: state, reset: _resetLocs);
+        return _IdleBody(
+            state: state, reset: _resetLocs, selectedData: _selectedDate);
       },
     );
   }
@@ -164,8 +165,10 @@ class _AdministrationAvailableShiftsScreenState
 
 class _IdleBody extends StatelessWidget {
   final AppState state;
+  final DateTime selectedData;
   final Function() reset;
-  _IdleBody({required this.state, required this.reset});
+  _IdleBody(
+      {required this.state, required this.reset, required this.selectedData});
   @override
   Widget build(BuildContext context) {
     return SpacedColumn(
@@ -211,6 +214,18 @@ class _IdleBody extends StatelessWidget {
                   width: 240.w,
                   text: AdministrationLocationScreen
                       .selectedLocation['user']!['value'],
+                  textStyle: ThemeTextRegular.base1)
+            ],
+          ),
+          SpacedRow(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            horizontalSpace: 10,
+            children: [
+              const FaIcon(FontAwesomeIcons.calendarDay,
+                  color: ThemeColors.mainBlue),
+              SizedText(
+                  width: 240.w,
+                  text: DateFormat('dd.MM.yyyy').format(selectedData),
                   textStyle: ThemeTextRegular.base1)
             ],
           ),
