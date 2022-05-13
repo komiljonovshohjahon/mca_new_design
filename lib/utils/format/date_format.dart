@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../common/log_tester.dart';
@@ -431,4 +432,15 @@ String formatDateTime(String date,
     return "$hour:$minute:$second";
   }
   return "$day.$month.$year";
+}
+
+String getTimeFormat(
+  TimeOfDay time,
+) {
+  final hour =
+      time.hour < 10 ? "0" + time.hour.toString() : time.hour.toString();
+  final min =
+      time.minute < 10 ? "0" + time.minute.toString() : time.minute.toString();
+
+  return "$hour:$min";
 }

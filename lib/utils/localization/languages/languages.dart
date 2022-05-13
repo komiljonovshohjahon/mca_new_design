@@ -132,6 +132,10 @@ class EnglishLocale {
     AppRoutes.RouteToProperties: "Properties",
     'rooms': 'Rooms',
     'storages': 'Storages',
+    "start_time": "Start Time",
+    "end_time": "End Time",
+    "start_date_must_be_selected": "Start date must be selected!",
+    "start_time_must_be_selected": "Start time must be selected!",
   };
 }
 

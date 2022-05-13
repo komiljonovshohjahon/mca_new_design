@@ -369,22 +369,39 @@ class ModelsMiddleware extends MiddlewareClass<AppState> {
   Future _getPostHolidayAction(
       AppState state, GetPostHolidayAction action, NextDispatcher next) async {
     showLoadingDialog();
+    final type_id = action.type_id;
     FormData formData = FormData();
-    formData.fields
-      ..add(MapEntry('type_id', action.type_id.toString()))
-      ..add(MapEntry('start_date', action.start_date.toString()))
-      ..add(MapEntry('end_date', action.end_date.toString()))
-      ..add(MapEntry('comment', action.comment.toString()));
+    formData.fields.add(MapEntry('type_id', action.type_id.toString()));
+    formData.fields.add(MapEntry('start_date', action.start_date.toString()));
+    if (action.comment != null && action.comment!.isNotEmpty) {
+      formData.fields.add(MapEntry('comment', action.comment.toString()));
+    }
+    if (type_id == 4 || type_id == 9) {
+      //Timeoff && Overtime
+      formData.fields
+        ..add(MapEntry('start_time', action.start_time.toString()))
+        ..add(MapEntry('finish_time', action.end_time.toString()));
+    }
+    if (type_id == 7) {
+      //Late
+      formData.fields.add(MapEntry('start_time', action.start_time.toString()));
+    }
+    if (type_id == 1 || type_id == 2 || type_id == 3 || type_id == 8) {
+      //Default && Leave Early
+      formData.fields.add(MapEntry('finish_time', action.end_date.toString()));
+    }
+
     logger(formData.fields, hint: 'FormData fields <->');
     final Response? res = await appStore.dispatch(GetRunApiFetchAction(
         ApiInvokes.invokeHoliday,
         data: formData,
+        closeLoadingOnError: true,
         reqType: ReqType.POST));
     if (res != null) {
       //Success
       await appStore.dispatch(GetTimesheetAction());
       appStore.pop();
-      appStore.pop();
+      // appStore.pop();
     } else {
       //Fail
     }

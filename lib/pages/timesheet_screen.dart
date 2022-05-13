@@ -176,7 +176,6 @@ class _TimeSheetListWidgetState extends State<_TimeSheetListWidget> {
                 ThemeColors.transparent;
       }
     }
-
     return SpacedColumn(
       verticalSpace: 4,
       children: [
@@ -244,7 +243,7 @@ class _TimeSheetListWidgetState extends State<_TimeSheetListWidget> {
                                                 width: 120.w,
                                                 softWrap: false,
                                                 maxLines: 1,
-                                                text: e.location),
+                                                text: e.shift),
                                             SizedText(
                                                 softWrap: false,
                                                 maxLines: 1,

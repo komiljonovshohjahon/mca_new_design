@@ -46,10 +46,25 @@ class _ReqBodyState extends State<_ReqBody> {
   final TextEditingController startDateContr = TextEditingController();
   final TextEditingController endDateContr = TextEditingController();
   final TextEditingController commentContr = TextEditingController();
+  final TextEditingController startTimeContr = TextEditingController();
+  final TextEditingController endTimeContr = TextEditingController();
+  //isTimeoff:
+  // startDate - startTime - endTime
+  // isLate:
+  // startDate - startTime
+  // isLeaveEarly:
+  // startDate - endTime
+  // isOvertime:
+  // startDate - startTime - endTime
+  // isDefault:
+  // startDate - endDate
+  bool isDefault = true;
+  bool isTimeoff = false;
+  bool isLate = false;
+  bool isLeaveEarly = false;
+  bool isOvertime = false;
   int type_id = 1;
   String holidayTypeComment = "";
-  String start_time = "";
-  String end_time = "";
   @override
   void dispose() {
     startDateContr.dispose();
@@ -99,11 +114,37 @@ class _ReqBodyState extends State<_ReqBody> {
                   _type_id = element.typeId!;
                 }
               }
+              isTimeoff = false;
+              isLate = false;
+              isLeaveEarly = false;
+              isOvertime = false;
+              isDefault = false;
+              startDateContr.text = "";
+              endDateContr.text = "";
+              startTimeContr.text = "";
+              endTimeContr.text = "";
 
               setState(() {
                 reqType = _name;
                 holidayTypeComment = _comment;
                 type_id = _type_id;
+                if (type_id == 4) {
+                  isTimeoff = true;
+                  isDefault = false;
+                }
+                if (type_id == 7) {
+                  isLate = true;
+                  isDefault = false;
+                } else if (type_id == 8) {
+                  isLeaveEarly = true;
+                  isDefault = false;
+                } else if (type_id == 9) {
+                  isOvertime = true;
+                  isDefault = false;
+                }
+                if (type_id == 1 || type_id == 2 || type_id == 3) {
+                  isDefault = true;
+                }
               });
             },
             value: reqType,
@@ -129,7 +170,6 @@ class _ReqBodyState extends State<_ReqBody> {
             if (picked != null) {
               setState(() {
                 startDateContr.text = getDateFormat(picked);
-                start_time = formatTime(picked);
               });
             }
           },
@@ -139,26 +179,66 @@ class _ReqBodyState extends State<_ReqBody> {
               label: 'start_date',
               controller: startDateContr),
         ),
-        GestureDetector(
-            onTap: () async {
-              final DateTime? picked = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now().add(2.days),
-                  firstDate: DateTime.now().add(1.days),
-                  lastDate: DateTime(2030));
+        if (isDefault)
+          GestureDetector(
+              onTap: () async {
+                final DateTime? picked = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now().add(2.days),
+                    firstDate: DateTime.now().add(1.days),
+                    lastDate: DateTime(2030));
 
-              if (picked != null) {
-                setState(() {
-                  endDateContr.text = getDateFormat(picked);
-                  end_time = formatTime(picked);
-                });
-              }
-            },
-            child: DefaultInput(
-                enabled: false,
-                label: 'end_date',
-                hintText: 'end_date',
-                controller: endDateContr)),
+                if (picked != null) {
+                  setState(() {
+                    endDateContr.text = getDateFormat(picked);
+                  });
+                }
+              },
+              child: DefaultInput(
+                  enabled: false,
+                  label: 'end_date',
+                  hintText: 'end_date',
+                  controller: endDateContr)),
+        if (isTimeoff || isLate || isOvertime)
+          GestureDetector(
+              onTap: () async {
+                final TimeOfDay? picked = await showTimePicker(
+                  context: context,
+                  initialTime: const TimeOfDay(hour: 00, minute: 00),
+                );
+
+                if (picked != null) {
+                  logger('picked: ${picked.toString()}');
+                  setState(() {
+                    startTimeContr.text = getTimeFormat(picked);
+                  });
+                }
+              },
+              child: DefaultInput(
+                  enabled: false,
+                  label: 'start_time',
+                  hintText: 'start_time',
+                  controller: startTimeContr)),
+        if (isTimeoff || isOvertime || isLeaveEarly)
+          GestureDetector(
+              onTap: () async {
+                final TimeOfDay? picked = await showTimePicker(
+                  context: context,
+                  initialTime: const TimeOfDay(hour: 00, minute: 00),
+                );
+
+                if (picked != null) {
+                  logger('picked: ${picked.toString()}');
+                  setState(() {
+                    endTimeContr.text = getTimeFormat(picked);
+                  });
+                }
+              },
+              child: DefaultInput(
+                  enabled: false,
+                  label: 'end_time',
+                  hintText: 'end_time',
+                  controller: endTimeContr)),
         DefaultInput(
             label: 'comment', hintText: 'comment', controller: commentContr)
       ],
@@ -186,12 +266,25 @@ class _ReqBodyState extends State<_ReqBody> {
               if (startDateContr.text.isEmpty) {
                 appStore.snackbar('start_date_must_be_selected');
               } else {
+                if (isTimeoff || isLate || isOvertime) {
+                  if (startTimeContr.text.isEmpty) {
+                    appStore.snackbar('start_time_must_be_selected');
+                    return;
+                  }
+                }
+                if (isTimeoff || isLeaveEarly || isOvertime) {
+                  if (endTimeContr.text.isEmpty) {
+                    appStore.snackbar('end_time_must_be_selected');
+                    return;
+                  }
+                }
+
                 await appStore.dispatch(GetPostHolidayAction(
                   type_id: type_id,
                   end_date: endDateContr.text,
                   start_date: startDateContr.text,
-                  end_time: end_time,
-                  start_time: start_time,
+                  end_time: endTimeContr.text,
+                  start_time: startTimeContr.text,
                   comment: commentContr.text,
                 ));
               }
