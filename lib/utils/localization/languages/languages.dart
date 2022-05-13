@@ -114,7 +114,8 @@ class EnglishLocale {
     "leave": "Leave",
     "stay": "Stay",
 
-    ///New strings
+    //Custom Strings
+
     "location_not_found": "Location not found!",
     "selected_shift_not_in_range": "Selected shift is not in locations range!",
     "select_all": "Select All",
@@ -136,6 +137,7 @@ class EnglishLocale {
     "end_time": "End Time",
     "start_date_must_be_selected": "Start date must be selected!",
     "start_time_must_be_selected": "Start time must be selected!",
+    "end_time_must_be_selected": "End time must be selected!",
   };
 }
 
@@ -252,6 +254,31 @@ class HungarianLocale {
     "reset": "Visszaállítás",
     "leave": "Kilépés",
     "stay": "Maradj",
+
+    //Custom Strings
+    "location_not_found": "A hely nem található!",
+    "selected_shift_not_in_range":
+        "A kiválasztott műszak nincs a tartományban!",
+    "select_all": "Mindet kiválaszt",
+    'timer': 'Időzítő',
+    "please_wait_loading": "Kérjük, várjon, betöltés...",
+    "normal_rate": "Normál arány",
+    "in_queue": "Sorban",
+    'unknown': 'Ismeretlen',
+    'payment_rate': 'Fizetési arány',
+    'users': 'Felhasználók',
+    'in_progress': 'Folyamatban',
+    'notes': 'Megjegyzések',
+    'search_for_property': 'Ingatlan keresése',
+    'properties': 'Tulajdonságok',
+    AppRoutes.RouteToProperties: "Tulajdonságok",
+    'rooms': 'Szobák',
+    'storages': 'Tárolók',
+    "start_time": "Kezdési idő",
+    "end_time": "Idő vége",
+    "start_date_must_be_selected": "A kezdési dátumot ki kell választani!",
+    "start_time_must_be_selected": "Kezdési időpontot kell kiválasztani!",
+    "end_date_must_be_selected": "A befejezési időpontot ki kell választani!",
   };
 }
 
@@ -366,5 +393,31 @@ class PortugueseLocale {
     "reset": "Resetar",
     "leave": "Sair",
     "stay": "Permanecer",
+
+    //Custom Strings
+
+    "location_not_found": "Endtime deve ser selecionado!",
+    "selected_shift_not_in_range":
+        "O turno selecionado não está no intervalo de locais!",
+    "select_all": "Selecionar tudo",
+    'timer': 'Cronômetro',
+    "please_wait_loading": "Aguarde, carregando...",
+    "normal_rate": "Taxa normal",
+    "in_queue": "Na fila",
+    'unknown': 'Desconhecido',
+    'payment_rate': 'Taxa de pagamento',
+    'users': 'Comercial',
+    'in_progress': 'Em andamento',
+    'notes': 'Notas',
+    'search_for_property': 'Pesquisar propriedade',
+    'properties': 'Propriedades',
+    AppRoutes.RouteToProperties: "Propriedades",
+    'rooms': 'Quartos',
+    'storages': 'Armazenamentos',
+    "start_time": "Hora de início",
+    "end_time": "Fim do tempo",
+    "start_date_must_be_selected": "A data de início deve ser selecionada!",
+    "start_time_must_be_selected": "A hora de início deve ser selecionada!",
+    "end_time_must_be_selected": "A hora de término deve ser selecionada!",
   };
 }

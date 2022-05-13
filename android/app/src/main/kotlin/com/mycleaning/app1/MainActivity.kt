@@ -1,4 +1,4 @@
-package com.mycleaning.app
+package com.mycleaning.app1
 
 import io.flutter.embedding.android.FlutterActivity
 
