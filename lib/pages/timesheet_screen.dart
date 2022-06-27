@@ -2,8 +2,8 @@ import 'package:mca_new_design/manager/models/model_exporter.dart';
 import 'package:mca_new_design/template/base/template.dart';
 
 class TimesheetScreen extends StatefulWidget {
-  static DateTime fromDate = DateTime.now().subtract(1.days);
-  static DateTime toDate = DateTime.now().add(5.days);
+  static DateTime fromDate = DateTime.now();
+  static DateTime toDate = fromDate;
   const TimesheetScreen({Key? key}) : super(key: key);
 
   @override
@@ -13,13 +13,45 @@ class TimesheetScreen extends StatefulWidget {
 class _TimesheetScreenState extends State<TimesheetScreen> {
   @override
   void dispose() {
-    TimesheetScreen.fromDate = DateTime.now().subtract(1.days);
-    TimesheetScreen.toDate = DateTime.now().add(5.days);
+    TimesheetScreen.fromDate = DateTime.now();
+    TimesheetScreen.toDate = TimesheetScreen.fromDate;
     super.dispose();
+  }
+
+  void switcher() {
+    DateTime fromDate = TimesheetScreen.fromDate;
+
+    switch (fromDate.weekday) {
+      case 1:
+        fromDate = fromDate;
+        break;
+      case 2:
+        fromDate = fromDate.subtract(1.days);
+        break;
+      case 3:
+        fromDate = fromDate.subtract(2.days);
+        break;
+      case 4:
+        fromDate = fromDate.subtract(3.days);
+        break;
+      case 5:
+        fromDate = fromDate.subtract(4.days);
+        break;
+      case 6:
+        fromDate = fromDate.subtract(5.days);
+        break;
+      case 7:
+        fromDate = fromDate.subtract(6.days);
+        break;
+    }
+    TimesheetScreen.fromDate = fromDate;
+    TimesheetScreen.toDate = fromDate.add(6.days);
   }
 
   @override
   Widget build(BuildContext context) {
+    switcher();
+
     return DefaultBody(
       shimmerLength: 10,
       paddingTop: 10,
@@ -191,7 +223,14 @@ class _TimeSheetListWidgetState extends State<_TimeSheetListWidget> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: SizedText(textAlign: TextAlign.center, text: date),
+                  child: SizedText(
+                      textAlign: TextAlign.center,
+                      text: date,
+                      textStyle: int.tryParse(date.substring(0, 2)) != null &&
+                              int.tryParse(date.substring(0, 2)) ==
+                                  DateTime.now().day
+                          ? ThemeTextSemibold.base
+                          : null),
                 ),
                 Expanded(
                   flex: 3,
