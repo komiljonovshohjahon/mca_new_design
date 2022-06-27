@@ -14,8 +14,10 @@ class DefaultHeader extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? showArrowRight;
   final VoidCallback? showActionMenu;
   final VoidCallback? showCalendar;
+  final bool centerTitle;
   DefaultHeader({
     this.titleText,
+    this.centerTitle = false,
     this.showLeadingBack,
     this.showActionBell,
     this.showActionLocation,
@@ -35,11 +37,12 @@ class DefaultHeader extends StatelessWidget implements PreferredSizeWidget {
           return AppBar(
             elevation: 0,
             backgroundColor: ThemeColors.mainBlue,
-            title: SizedText(text: Get.routing.current),
+            title: SizedText(text: titleText ?? Get.routing.current),
             toolbarHeight: ThemeSizeStyle.appBarHeight.h,
             automaticallyImplyLeading: false,
             // title: _buildTitleText(),
             leading: _buildLeading(),
+            centerTitle: centerTitle,
             actions: _buildActions(state),
             titleSpacing: 0,
           );

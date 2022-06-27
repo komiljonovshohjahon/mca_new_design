@@ -54,8 +54,12 @@ class GetResetAction {
   final bool removeTest;
   final bool removeError;
   final bool removeReg;
+  final bool removeLocAccess;
   GetResetAction(
-      {this.removeTest = true, this.removeError = true, this.removeReg = true});
+      {this.removeTest = true,
+      this.removeError = true,
+      this.removeReg = true,
+      this.removeLocAccess = false});
 }
 
 class GetEnableTestModeAction {}

@@ -27,11 +27,16 @@ class _McaAppState extends State<McaApp> {
         child: ScreenUtilInit(
             designSize: const Size(
                 ThemeSizeStyle.screenWidth, ThemeSizeStyle.screenHeight),
-            builder: (_) => GetMaterialApp(
-                builder: (context, child) => MediaQuery(
-                    child: child!,
-                    data: MediaQuery.of(context)
-                        .copyWith(textScaleFactor: 1.0.sp)),
+            builder: (_, __) => GetMaterialApp(
+                builder: (context, child) {
+                  ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+                    return ErrorScreen(errorDetails: errorDetails);
+                  };
+                  return MediaQuery(
+                      child: child!,
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaleFactor: 1.0.sp));
+                },
                 title: Constants.appTitle,
                 theme: MainTheme.mainTheme,
                 debugShowCheckedModeBanner: kDebugMode,

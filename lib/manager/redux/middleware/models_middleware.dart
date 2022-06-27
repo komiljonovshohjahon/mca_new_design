@@ -25,6 +25,8 @@ import '../states/init_state.dart';
 import '../states/models_state.dart';
 import 'package:timezone/standalone.dart' as tz;
 
+import 'login_middleware.dart';
+
 class ModelsMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, next) {
@@ -88,7 +90,7 @@ class ModelsMiddleware extends MiddlewareClass<AppState> {
     final renewedToken = await appStore.dispatch(GetRenewAccessTokenAction());
     if (renewedToken != null) {
       await appStore.dispatch(GetCompanyAction());
-      await appStore.dispatch(GetLocationAction());
+      // await appStore.dispatch(GetLocationAction());
       await appStore.dispatch(GetDetailsAction());
       await appStore.dispatch(GetPhotoAction());
       await appStore.dispatch(GetAvailableAction());
@@ -96,7 +98,7 @@ class ModelsMiddleware extends MiddlewareClass<AppState> {
       await appStore.dispatch(GetReqTypesAction());
       if (action.successAction != null) action.successAction!();
     } else {
-      appStore.replace(AppRoutes.RouteToSignUp);
+      disclosureAction();
     }
   }
 
@@ -694,6 +696,7 @@ Future<Position?> getDeviceLocation() async {
       // returned true. According to Android guidelines
       // your App should show an explanatory UI now.
       appStore.snackbar('Location permissions are denied');
+      return null;
     }
   }
 
@@ -701,6 +704,7 @@ Future<Position?> getDeviceLocation() async {
     // Permissions are denied forever, handle appropriately.
     appStore.snackbar(
         'Location permissions are permanently denied, we cannot request permissions.');
+    return null;
   }
 
   // When we reach here, permissions are granted and we can

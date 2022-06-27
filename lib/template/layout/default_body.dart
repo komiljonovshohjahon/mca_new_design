@@ -29,10 +29,14 @@ class DefaultBody extends StatelessWidget {
   final VoidCallback? showArrowLeft;
   final VoidCallback? showArrowRight;
   final VoidCallback? showCalendar;
+  final bool hasDrawer;
+  final bool centerTitle;
 
   const DefaultBody({
     this.footer,
     this.showLeadingBack,
+    this.hasDrawer = true,
+    this.centerTitle = false,
     this.showLeadingMenuBtn = false,
     this.header,
     this.showLeadingX,
@@ -72,6 +76,7 @@ class DefaultBody extends StatelessWidget {
             extendBodyBehindAppBar: connectAppBarWithBody,
             appBar: header ??
                 DefaultHeader(
+                  centerTitle: centerTitle,
                   showActionMenu: showActionMenu,
                   showArrowLeft: showArrowLeft,
                   showArrowRight: showArrowRight,
@@ -84,7 +89,7 @@ class DefaultBody extends StatelessWidget {
                   showCalendar: showCalendar,
                 ),
             bottomNavigationBar: footer != null ? footer!(state) : null,
-            drawer: _getDrawer(state),
+            drawer: hasDrawer ? _getDrawer(state) : null,
             body: SafeArea(
               child: Padding(
                   padding: EdgeInsets.only(

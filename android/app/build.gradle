@@ -50,13 +50,13 @@ android {
         multiDexEnabled true
     }
 
-    
+
     signingConfigs{
         release {
             storeFile file('../mca_jks/apk-key.jks')
-            storePassword '' // TODO: change this
-            keyAlias '' // TODO: change this
-            keyPassword '' // TODO: change this
+            storePassword "2willpass"
+            keyAlias "key0"
+            keyPassword "2willpass"
         }
         debug {
             storeFile file('../mca_jks/debug_key.jks')

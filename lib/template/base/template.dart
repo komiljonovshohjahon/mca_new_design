@@ -50,6 +50,8 @@ export '../../pages/timesheet_req_screen.dart';
 export '../../pages/timesheet_available_screen.dart';
 export '../../pages/messages_screen.dart';
 export '../../pages/properties_screen.dart';
+export '../../pages/prominent_alert_screen.dart';
+export '../../pages/error_screen.dart';
 
 //Widgets
 export '../layout/default_body.dart';

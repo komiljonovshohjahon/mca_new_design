@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:mca_new_design/template/base/template.dart';
 
 class Constants {
@@ -11,7 +10,7 @@ class Constants {
       "1_3bcbxd9e24g0gk4swg0kwgcwg4o8k8g4g888kwc44gcc0gwwk4";
   static String clientSecret =
       "4ok2x70rlfokc8g0wws8c8kwcokw80k44sg48goc0ok4w0so0k";
-  static const app_version = '0.9';
+  static const app_version = '1.1';
   static const alphabet = [
     'A',
     'B',
@@ -66,4 +65,5 @@ class Constants {
   static const String hiveRegKey = "HIVE_REGISTER_KEY";
   static const String hiveTestKey = "HIVE_TEST_KEY";
   static const String hiveLocaleKey = "HIVE_LOCALE_KEY";
+  static const String hiveLocationAccessed = "HIVE_LOC_ACCESSED";
 }

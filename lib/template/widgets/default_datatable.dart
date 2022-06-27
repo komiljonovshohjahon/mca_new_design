@@ -15,10 +15,13 @@ class DefaultDatatable extends StatefulWidget {
   double headNamesHeight;
   Color bodyBgColor;
 
+  List<String>? visibleNames;
+
   DefaultDatatable({
     required this.headNames,
     required this.bodyNames,
     this.bodyWidths,
+    this.visibleNames,
     this.bodyTextMaxlines,
     this.onTaps,
     this.isNumericCols,
@@ -60,6 +63,8 @@ class DefaultDatatable extends StatefulWidget {
         bodyTextMaxlines!.add(null);
       }
     }
+
+    visibleNames ??= [];
   }
 
   @override
@@ -110,6 +115,15 @@ class _DefaultDatatableState extends State<DefaultDatatable> {
       int index = headNames.indexOf(element);
       list.add(
         GridColumn(
+            visible: widget.visibleNames!.isEmpty
+                ? true
+                : (element == "total"
+                    ? true
+                    : element == "items"
+                        ? true
+                        : element
+                            .toLowerCase()
+                            .contains(RegExp(widget.visibleNames!.first))),
             columnName: element,
             width: widget.bodyWidths![index] == null
                 ? double.nan

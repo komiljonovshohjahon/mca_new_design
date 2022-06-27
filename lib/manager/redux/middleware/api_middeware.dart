@@ -72,8 +72,8 @@ Future<void> alert(String message, [String? title]) {
     context: Get.context!,
     builder: (context) {
       return AlertDialog(
-        title: SizedText(text: title ?? 'information'.tr),
-        content: Text(message),
+        title: SizedText(text: title?.tr ?? 'information'.tr),
+        content: Text(message.tr),
         actions: [
           ElevatedButton(
             onPressed: () => Get.back(),

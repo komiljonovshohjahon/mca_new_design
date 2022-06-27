@@ -21,6 +21,8 @@ class AppRoutes {
   static const RouteToTimesheetAvailable = "/TimesheetAvailable";
   static const RouteToMessages = "/messages";
   static const RouteToProperties = "/properties";
+  static const RouteToProminentAlert = "/prominent_alert";
+  static const RouteToError = "/error)";
 
   static Map<String, WidgetBuilder> getRoutes() {
     Map<String, WidgetBuilder> base = {
@@ -54,6 +56,10 @@ class AppRoutes {
           const TimesheetAvailableScreen(),
       AppRoutes.RouteToMessages: (BuildContext _) => const MessagesScreen(),
       AppRoutes.RouteToProperties: (BuildContext _) => const PropertiesScreen(),
+      AppRoutes.RouteToProminentAlert: (BuildContext _) =>
+          ProminentAlertScreen(),
+      AppRoutes.RouteToError: (BuildContext _) => ErrorScreen(
+          errorDetails: FlutterErrorDetails(exception: Exception("Error"))),
     };
 
     return base;

@@ -97,86 +97,95 @@ class _StockTransferItemScreenState extends State<StockTransferItemScreen> {
   }
 
   Widget _buildItemsList(Map locs) {
-    final items = locs[locId]['items'];
-    return RectangleWidget(
-      // height: 382,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 11.h),
-        child: SpacedColumn(
-          // verticalSpace: 4,
-          children: [
-            for (int i = 0; i < contrs.length; i++)
-              Column(
-                children: [
-                  if (i == 0)
-                    SpacedRow(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedText(
-                            width: 140.w,
-                            text: 'items',
-                            textStyle: ThemeTextRegular.base
-                                .apply(color: ThemeColors.c9E9FA5)),
-                        SizedText(
-                            width: 80.w,
-                            text: 'in_stock',
-                            textStyle: ThemeTextRegular.base
-                                .apply(color: ThemeColors.c9E9FA5)),
-                        SizedText(
-                            text: 'amount',
-                            textStyle: ThemeTextRegular.base
-                                .apply(color: ThemeColors.c9E9FA5)),
-                      ],
-                    ),
-                  if (i == 0) const Divider(),
-                  _itemBuilder(items[i], contrs[i]),
-                  const Divider(),
-                ],
-              ),
-          ],
-        ),
-      ),
-      // child: Padding(
-      //   padding: EdgeInsets.only(right: 2.w),
-      //   child: RawScrollbar(
-      //     thickness: 4.w,
-      //     isAlwaysShown: true,
-      //     radius: Radius.circular(4.r),
-      //     thumbColor: ThemeColors.mainBlue.withOpacity(0.4),
-      //     child: ListView.separated(
-      //         shrinkWrap: true,
-      //         separatorBuilder: (context, index) => const Divider(),
-      //         padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 11.h),
-      //         itemBuilder: (context, index) {
-      //           if (index == 0) {
-      //             return SpacedRow(
-      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //               crossAxisAlignment: CrossAxisAlignment.center,
-      //               children: [
-      //                 SizedText(
-      //                     width: 140.w,
-      //                     text: 'items',
-      //                     textStyle: ThemeTextRegular.base
-      //                         .apply(color: ThemeColors.c9E9FA5)),
-      //                 SizedText(
-      //                     width: 80.w,
-      //                     text: 'in_stock',
-      //                     textStyle: ThemeTextRegular.base
-      //                         .apply(color: ThemeColors.c9E9FA5)),
-      //                 SizedText(
-      //                     text: 'amount',
-      //                     textStyle: ThemeTextRegular.base
-      //                         .apply(color: ThemeColors.c9E9FA5)),
-      //               ],
-      //             );
-      //           }
-      //           return _itemBuilder(items[index], contrs[index]);
-      //         },
-      //         itemCount: contrs.length),
-      //   ),
-      // ),
-    );
+    // final s = locs[locId]['items'];
+    // print(s.map((e) => e.name).toList());
+    if (locs[locId] != null) {
+      if (locs[locId]['items'] != null) {
+        final items = locs[locId]['items'];
+        return RectangleWidget(
+          // height: 382,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 11.h),
+            child: SpacedColumn(
+              // verticalSpace: 4,
+              children: [
+                for (int i = 0; i < contrs.length; i++)
+                  Column(
+                    children: [
+                      if (i == 0)
+                        SpacedRow(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedText(
+                                width: 140.w,
+                                text: 'items',
+                                textStyle: ThemeTextRegular.base
+                                    .apply(color: ThemeColors.c9E9FA5)),
+                            SizedText(
+                                width: 80.w,
+                                text: 'in_stock',
+                                textStyle: ThemeTextRegular.base
+                                    .apply(color: ThemeColors.c9E9FA5)),
+                            SizedText(
+                                text: 'amount',
+                                textStyle: ThemeTextRegular.base
+                                    .apply(color: ThemeColors.c9E9FA5)),
+                          ],
+                        ),
+                      if (i == 0) const Divider(),
+                      if (items[i].current != null)
+                        _itemBuilder(items[i], contrs[i]),
+                      if (items[i].current != null) const Divider(),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+          // child: Padding(
+          //   padding: EdgeInsets.only(right: 2.w),
+          //   child: RawScrollbar(
+          //     thickness: 4.w,
+          //     isAlwaysShown: true,
+          //     radius: Radius.circular(4.r),
+          //     thumbColor: ThemeColors.mainBlue.withOpacity(0.4),
+          //     child: ListView.separated(
+          //         shrinkWrap: true,
+          //         separatorBuilder: (context, index) => const Divider(),
+          //         padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 11.h),
+          //         itemBuilder: (context, index) {
+          //           if (index == 0) {
+          //             return SpacedRow(
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //               crossAxisAlignment: CrossAxisAlignment.center,
+          //               children: [
+          //                 SizedText(
+          //                     width: 140.w,
+          //                     text: 'items',
+          //                     textStyle: ThemeTextRegular.base
+          //                         .apply(color: ThemeColors.c9E9FA5)),
+          //                 SizedText(
+          //                     width: 80.w,
+          //                     text: 'in_stock',
+          //                     textStyle: ThemeTextRegular.base
+          //                         .apply(color: ThemeColors.c9E9FA5)),
+          //                 SizedText(
+          //                     text: 'amount',
+          //                     textStyle: ThemeTextRegular.base
+          //                         .apply(color: ThemeColors.c9E9FA5)),
+          //               ],
+          //             );
+          //           }
+          //           return _itemBuilder(items[index], contrs[index]);
+          //         },
+          //         itemCount: contrs.length),
+          //   ),
+          // ),
+        );
+      }
+      return const SizedBox();
+    }
+    return Container();
   }
 
   Widget _itemBuilder(Items items, TextEditingController contr) {
@@ -189,7 +198,7 @@ class _StockTransferItemScreenState extends State<StockTransferItemScreen> {
             width: 80.w,
             textAlign: TextAlign.center,
             textStyle: ThemeTextRegular.sm.apply(
-                color: int.parse(items.current!) < 0
+                color: int.parse(items.current ?? "0") < 0
                     ? ThemeColors.mainRed
                     : ThemeColors.black),
             text: items.current),

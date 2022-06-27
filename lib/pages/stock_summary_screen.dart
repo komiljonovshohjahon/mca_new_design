@@ -23,18 +23,32 @@ class StockSummaryScreen extends StatelessWidget {
   }
 }
 
-class _IdleBody extends StatelessWidget {
+class _IdleBody extends StatefulWidget {
   final AppState state;
   _IdleBody({required this.state});
 
   @override
+  State<_IdleBody> createState() => _IdleBodyState();
+}
+
+class _IdleBodyState extends State<_IdleBody> {
+  final TextEditingController searchController = TextEditingController();
+  final List<String> visibleName = [];
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final Map current = state.modelsState.currentStock['current'];
-    final Map minimum = state.modelsState.currentStock['minimum'];
-    final Map items = state.modelsState.currentStock['items'];
-    final Map storages = state.modelsState.currentStock['storages'];
+    final Map current = widget.state.modelsState.currentStock['current'];
+    final Map minimum = widget.state.modelsState.currentStock['minimum'];
+    final Map items = widget.state.modelsState.currentStock['items'];
+    final Map storages = widget.state.modelsState.currentStock['storages'];
     logger(storages);
-    final Map totals = state.modelsState.currentStock['totals'];
+    final Map totals = widget.state.modelsState.currentStock['totals'];
     final List itemsIds = items.keys.toList();
     final List minimumIds = minimum.keys.toList();
     final List minimumValues = minimum.values.toList();
@@ -62,20 +76,60 @@ class _IdleBody extends StatelessWidget {
     }
 
     final List<String> _heads = ['items', 'total', ...storagesValues];
-    final List<double> _bodyWdth = _heads.map<double>((e) => 70).toList();
+    final List<double> _bodyWdth = _heads.map<double>((e) => 80).toList();
     _bodyWdth.replaceRange(0, 2, [110.0, 70.0]);
     //List
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _buildSearchInput(),
         Flexible(
           child: DefaultDatatable(
               freezedColNumber: 1,
               bodyWidths: _bodyWdth,
+              visibleNames: visibleName,
               headNames: _heads,
               bodyNames: bodyNames()),
         )
       ],
+    );
+  }
+
+  Widget _buildSearchInput() {
+    return PhysicalModel(
+      color: Colors.white,
+      elevation: 0.8,
+      child: DefaultInput(
+        hintText: 'filter_warehouse',
+        controller: searchController,
+        bgColor: ThemeColors.white,
+        width: double.infinity,
+        prefixIcon: FontAwesomeIcons.search,
+        height: 45.h,
+        onChanged: (val) {
+          if (val.isEmpty) {
+            setState(() {
+              visibleName.clear();
+            });
+            FocusManager.instance.primaryFocus?.unfocus();
+          }
+        },
+        onSubmit: () {
+          if (searchController.text.isNotEmpty) {
+            print(searchController.text);
+            //Fetch items list
+            setState(() {
+              visibleName.clear();
+              visibleName.add(searchController.text);
+            });
+          } else {
+            setState(() {
+              visibleName.clear();
+            });
+            FocusManager.instance.primaryFocus?.unfocus();
+          }
+        },
+      ),
     );
   }
 }

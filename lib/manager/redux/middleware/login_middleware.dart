@@ -71,10 +71,10 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
         //Success
         await appStore.dispatch(
             GetExportHiveAction(value: true, key: Constants.hiveRegKey));
-        await appStore.dispatch(GetModelsInitAction(successAction: () {
+        await appStore.dispatch(GetModelsInitAction(successAction: () async {
           next(UpdateInitAction(
               apiError: ApiError(error: null, error_description: null)));
-          appStore.replace(AppRoutes.RouteToMain);
+          disclosureAction();
         }));
       } else {
         await appStore.dispatch(GetResetAction(
@@ -109,6 +109,10 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     await appStore.dispatch(GetDeleteHiveAction(key: Constants.hiveTokenKey));
     if (action.removeTest) {
       await appStore.dispatch(GetDeleteHiveAction(key: Constants.hiveTestKey));
+    }
+    if (action.removeLocAccess) {
+      await appStore
+          .dispatch(GetDeleteHiveAction(key: Constants.hiveLocationAccessed));
     }
     if (!action.removeTest) {
       next(UpdateInitAction(isTest: isTest));
@@ -241,4 +245,16 @@ Future _getChangeLocaleAction(
   }
 }
 
+Future<void> disclosureAction() async {
+  bool? accessed = await appStore
+      .dispatch(GetImportHiveAction(key: Constants.hiveLocationAccessed));
+  if (accessed != null && accessed) {
+    await appStore.dispatch(GetLocationAction());
+    //If already agreed for prominent permission, then do move to Main Page
+    appStore.replace(AppRoutes.RouteToMain);
+    return;
+  }
+  //If not, then do move to Permission Page
+  appStore.replace(AppRoutes.RouteToProminentAlert);
+}
 ///////////////////////DO NOT DECLARE FUNCTIONS AFTER THIS LINE//////////////////////////

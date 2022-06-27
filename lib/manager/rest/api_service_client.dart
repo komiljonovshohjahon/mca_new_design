@@ -18,7 +18,7 @@ class ApiClient {
       required this.baseUrl});
 
   Map<String, dynamic>? get headers {
-    if (token != null) {
+    if (token != null && token!.isNotEmpty) {
       return {
         "Authorization": "Bearer $token",
         "Content-Type": contentType ?? "application/json",

@@ -21,6 +21,8 @@ class EnglishLocale {
     AppRoutes.RouteToTimesheetReq: "Timesheet Request",
     AppRoutes.RouteToTimesheetAvailable: "Availability",
     AppRoutes.RouteToMessages: "Messages",
+    AppRoutes.RouteToProminentAlert: "Prominent Alert",
+    AppRoutes.RouteToError: "Error",
     //Messages
     "welcome_back": "Welcome back @username!",
     "information": "Information",
@@ -138,6 +140,23 @@ class EnglishLocale {
     "start_date_must_be_selected": "Start date must be selected!",
     "start_time_must_be_selected": "Start time must be selected!",
     "end_time_must_be_selected": "End time must be selected!",
+    "unavailable_shift": "Unavailable Shift",
+    "unavailable_shift_msg":
+        "This shift cannot be selected, since it is unavailable right now!",
+    "grant": "Grant",
+    "deny": "Deny",
+    "prominent_alert": "MCA needs your location",
+    "prominent_alert_msg":
+        "MCA used your location in the background. We use this to verify your location when you are signing in and out of shifts. We do not track your location.",
+    "turn_on_loc": "Turn on location",
+    "permanent_deny_handle_msg":
+        "Go to Phone settings -> Apps -> My Cleaning App -> Permissions -> Location -> Allow only while using the app",
+    "filter_warehouse": "Filter Warehouse",
+    "error": "Error",
+    "error_screen_msg":
+        "We are sorry, there was an error! Send an email to inform us about it. The error will be automatically added to email if you press the above button to send email at @email",
+    "openEmailApp": "Open Email App",
+    "oops": "Oops! Something went wrong!",
   };
 }
 
@@ -279,6 +298,8 @@ class HungarianLocale {
     "start_date_must_be_selected": "A kezdési dátumot ki kell választani!",
     "start_time_must_be_selected": "Kezdési időpontot kell kiválasztani!",
     "end_date_must_be_selected": "A befejezési időpontot ki kell választani!",
+    "unavailable_shift": "Nem elérhető Shift",
+    "unavailable_shift_msg": "Ez a műszak nem választható, mert nem elérhető!",
   };
 }
 
@@ -419,5 +440,8 @@ class PortugueseLocale {
     "start_date_must_be_selected": "A data de início deve ser selecionada!",
     "start_time_must_be_selected": "A hora de início deve ser selecionada!",
     "end_time_must_be_selected": "A hora de término deve ser selecionada!",
+    "unavailable_shift": "O turno não está disponível!",
+    "unavailable_shift_msg":
+        "Este turno não pode ser selecionado, pois não está disponível!",
   };
 }
